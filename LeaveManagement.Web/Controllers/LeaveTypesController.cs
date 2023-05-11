@@ -38,18 +38,15 @@ namespace LeaveManagement.Web.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.LeaveTypes == null)
-            {
                 return NotFound();
-            }
 
-            var leaveType = await _context.LeaveTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var leaveType = await _context.LeaveTypes.FindAsync(id);
+
             if (leaveType == null)
-            {
                 return NotFound();
-            }
+            var leaveTypeVM = _mapper.Map<LeaveTypeVM>(leaveType);
 
-            return View(leaveType);
+            return View(leaveTypeVM);
         }
 
         // GET: LeaveTypes/Create
@@ -82,6 +79,7 @@ namespace LeaveManagement.Web.Controllers
                 return NotFound();
 
             var leaveType = await _context.LeaveTypes.FindAsync(id);
+
             if (leaveType == null)
                 return NotFound();
             var leaveTypeVM = _mapper.Map<LeaveTypeVM>(leaveType);
