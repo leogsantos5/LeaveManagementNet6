@@ -14,12 +14,12 @@ namespace LeaveManagement.Web.Controllers
     public class LeaveTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly IMapper mapper;
 
         public LeaveTypesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
-            _mapper = mapper;
+            this.mapper = mapper;
         }
 
         // GET: LeaveTypes
@@ -27,7 +27,7 @@ namespace LeaveManagement.Web.Controllers
         {
             if (_context.LeaveTypes != null)
             {
-                var leaveTypes = _mapper.Map<List<LeaveTypeVM>>(await _context.LeaveTypes.ToListAsync());
+                var leaveTypes = mapper.Map<List<LeaveTypeVM>>(await _context.LeaveTypes.ToListAsync());
                 return View(leaveTypes); 
             }
             else
@@ -44,7 +44,7 @@ namespace LeaveManagement.Web.Controllers
 
             if (leaveType == null)
                 return NotFound();
-            var leaveTypeVM = _mapper.Map<LeaveTypeVM>(leaveType);
+            var leaveTypeVM = mapper.Map<LeaveTypeVM>(leaveType);
 
             return View(leaveTypeVM);
         }
@@ -64,7 +64,7 @@ namespace LeaveManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var leaveType = _mapper.Map<LeaveType>(leaveTypeVM);
+                var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
                 _context.Add(leaveType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -82,7 +82,7 @@ namespace LeaveManagement.Web.Controllers
 
             if (leaveType == null)
                 return NotFound();
-            var leaveTypeVM = _mapper.Map<LeaveTypeVM>(leaveType);
+            var leaveTypeVM = mapper.Map<LeaveTypeVM>(leaveType);
 
             return View(leaveTypeVM);
         }
@@ -103,7 +103,7 @@ namespace LeaveManagement.Web.Controllers
             {
                 try
                 {
-                    var leaveType = _mapper.Map<LeaveType>(leaveTypeVM);
+                    var leaveType = mapper.Map<LeaveType>(leaveTypeVM);
                     _context.Update(leaveType);
                     await _context.SaveChangesAsync();
                 }
