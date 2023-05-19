@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Employee> SignInManager
+@inject UserManager<Employee> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,15 +17,15 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-black border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Leave Management System - .NET 6</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between container">
-                    <ul style="margin-right: 330px" class="navbar-nav flex-grow-1 justify-content-center">
+                <div class="navbar-collapse collapse d-sm-inline-flex container justify-content-end d-flex">
+                    <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -31,17 +35,41 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="">My Leave</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Leave Management
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropDown">
-                                <li><a class="dropdown-item" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a></li>
-                                <li><a class="dropdown-item" href="#">Leave Allocations</a></li>
-                                <li><a class="dropdown-item" href="#">Leave Requests</a></li>
-                                <li><a class="dropdown-item" href="#">Employee Management</a></li>
-                            </ul>
-                        </li>
+                        @if (User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Leave Management
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropDown">
+                                    <li><a class="dropdown-item" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a></li>
+                                    <li><a class="dropdown-item" href="#">Leave Allocations</a></li>
+                                    <li><a class="dropdown-item" href="#">Leave Requests</a></li>
+                                    <li><a class="dropdown-item" href="#">Employee Management</a></li>
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+                    <ul style="margin-left: 150px" class="navbar-nav flex-grow-1 d-flex align-items-center ml-auto">
+                        @if (!SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="btn text-white" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn text-white" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                            </li>
+                        }
+                        else{
+                            <li class="nav-item">
+                                <a class="btn text-white" asp-area="Identity" asp-page="/Account/Manage/Index">Hi @User.Identity?.Name!</a>
+                            </li>
+                            <li class="nav-item">
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                    <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+                                </form>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
