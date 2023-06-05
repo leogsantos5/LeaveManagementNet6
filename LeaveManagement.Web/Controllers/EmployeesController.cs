@@ -79,9 +79,9 @@ namespace LeaveManagement.Web.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid) // you can put this business logic in the repository
                 {
-                    var leaveAllocation = await leaveAllocationRepository.GetAsync(model.Id);
+                    var leaveAllocation = await leaveAllocationRepository.GetAsync(model.Id); 
                     if (leaveAllocation == null)
                         return NotFound();
                     leaveAllocation.Period = model.Period;
