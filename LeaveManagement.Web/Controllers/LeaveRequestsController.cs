@@ -35,7 +35,7 @@ namespace LeaveManagement.Web.Controllers
             return View(adminLeaveRequestViewVM);
         }
 
-        public async Task<ActionResult> MyLeave()
+        public async Task<IActionResult> MyLeave()
         {
             var myLeaveVM = await leaveRequestRepository.GetMyLeaveDetails();
             return View(myLeaveVM);

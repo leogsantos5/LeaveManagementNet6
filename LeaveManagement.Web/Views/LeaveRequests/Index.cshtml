@@ -90,7 +90,7 @@
             <td>
                 @if (item.Cancelled)
                 {
-                    <span class="badge bg-secondary" style="font-size: 1.1rem;">>Cancelled</span>
+                    <span class="badge bg-secondary" style="font-size: 1.1rem;"> Cancelled</span>
                 }
                 else if ( item.Approved == null)
                 {         
@@ -108,7 +108,7 @@
             <td>
                 @if (item.Cancelled == false)
                 {
-                    <a asp-action="Details" class="btn btn-primary btn-sm" asp-route-id="@item.Id">Review</a>
+                    <a asp-action="Details" class="btn btn-primary" style="font-size: 1.1rem;" asp-route-id="@item.Id">Review</a>
                 }
             </td>
         </tr>
